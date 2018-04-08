@@ -5,9 +5,7 @@
  */
 package time.complexity;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -15,14 +13,21 @@ import java.util.Scanner;
  * @author oluwapelumi
  */
 public class ReadFile {
+    
+    private InputStream inputStream = null;
+    private int input;
+    private char textCharacters;
+    private String fileText;
         
     public static void main(String args[]) throws IOException {
         
         Scanner scanner = new Scanner(System.in);
         String fileLocation = scanner.nextLine();
-       InputStream inputStream = null;
-       int input;
-       char textCharacters;
+        ReadFile readFile = new ReadFile();
+        readFile.readFileWithBufferReader(fileLocation);
+    }
+    
+    public void readFileWithInputStream(String fileLocation) throws IOException{
         try {
             inputStream = new FileInputStream(fileLocation);
             
@@ -40,7 +45,30 @@ public class ReadFile {
             if(inputStream != null) 
                 inputStream.close();
         }
-        
+    }
+    
+    public void readFileWithBufferReader(String fileLocation) throws IOException {
+        BufferedReader bufferedReader = null;
+
+        try {            
+            System.out.println("==========Characters in file==========");
+            
+            FileReader fileReader = new FileReader(fileLocation);
+            //Wrap filereader in a Bufferedreader...
+            
+            bufferedReader = new BufferedReader(fileReader);
+            
+            while((fileText = bufferedReader.readLine()) != null) {
+                System.out.println(fileText);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(bufferedReader != null)
+                bufferedReader.close();
+        }
     }
     
 }
